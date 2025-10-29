@@ -153,5 +153,8 @@ Format the response as a well-structured story outline with clear sections."""
             "message": f"Error improving story: {str(e)}"
         }), 500
 
+# For Vercel serverless deployment
+app.debug = False
+
 if __name__ == '__main__':
     app.run(debug=True)
