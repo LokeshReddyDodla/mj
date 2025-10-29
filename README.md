@@ -17,7 +17,7 @@ StoryForge is an innovative web application that leverages AI to help writers ge
 
 - **Backend**: Flask (Python)
 - **Frontend**: HTML5, CSS3, JavaScript
-- **AI Integration**: Mira SDK
+- **AI Integration**: Groq API (Llama 3.1)
 - **Libraries**: 
   - Font Awesome for icons
   - particles.js for background animation
@@ -27,7 +27,7 @@ StoryForge is an innovative web application that leverages AI to help writers ge
 - Python 3.8+
 - pip
 - Flask
-- Mira SDK
+- Groq API Key (Get one free at https://console.groq.com/keys)
 
 ## Demo Images
 
@@ -70,21 +70,30 @@ source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
 ### 3. Install Dependencies
 
 ```bash
-pip install flask mira-sdk
+pip install -r requirements.txt
 ```
 
 ### 4. Configure API Key
 
-Replace the placeholder API key in `app.py`:
-```python
-client = MiraClient(config={"API_KEY": "your_mira_api_key"})
+Create a `.env` file in the project root directory:
+```bash
+cp .env.example .env
 ```
+
+Edit the `.env` file and add your Groq API key:
+```
+GROQ_API_KEY=your_groq_api_key_here
+```
+
+Get your free API key from: https://console.groq.com/keys
 
 ### 5. Run the Application
 
 ```bash
 python app.py
 ```
+
+Visit `http://127.0.0.1:5000` in your browser to start using StoryForge!
 
 ## Project Structure (main)
 
@@ -118,11 +127,11 @@ The Flask application handles two primary routes:
 
 1. `/generate_stories`: Generates multiple story outlines based on user-provided parameters
    - Inputs: Tone, Genre, Topic
-   - Uses Mira SDK to execute story generation flow
+   - Uses Groq API with Llama 3.1 70B model to generate creative story plots
 
 2. `/improve_story`: Refines a selected story outline
-   - Inputs: Plot, Tone, Genre, Topic
-   - Generates more detailed story sections
+   - Inputs: Plot, Tone, Genre, Topic, Twist
+   - Generates more detailed and improved story content with enhanced narrative structure
 
 ### Frontend (script.js)
 
