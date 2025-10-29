@@ -13,7 +13,14 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 if not GROQ_API_KEY:
     print("Warning: GROQ_API_KEY environment variable not set")
 
-client = Groq(api_key=GROQ_API_KEY)
+# Lazy initialization of Groq client
+_client = None
+
+def get_groq_client():
+    global _client
+    if _client is None:
+        _client = Groq(api_key=GROQ_API_KEY)
+    return _client
 
 @app.route('/')
 def index():
@@ -50,6 +57,7 @@ def generate_stories():
 Please provide 5 distinct and creative plot outlines, each on a new line. Number them 1-5."""
 
         # Call Groq API
+        client = get_groq_client()
         chat_completion = client.chat.completions.create(
             messages=[
                 {
@@ -124,6 +132,7 @@ Please provide an improved, more detailed version of the story with:
 Format the response as a well-structured story outline with clear sections."""
 
         # Call Groq API
+        client = get_groq_client()
         chat_completion = client.chat.completions.create(
             messages=[
                 {
